@@ -38,47 +38,26 @@
 
 <body class="dark-theme">
 
-<nav><div class="header"><div class="header-inner">
-    <ul class="nav">
-        <li><a class="button nav-first" href="//pokemonshowdown.com"><img src="./img/pokemonshowdownbeta.png" alt="Pok&eacute;mon Showdown! (beta)" /> Home</a></li>
-        <li><a class="button" href="//dex.pokemonshowdown.com">Pok&eacute;dex</a></li>
-        <li><a class="button" href="//replay.pokemonshowdown.com/">Replays</a></li>
-        <li><a class="button" href="//pokemonshowdown.com/ladder/">Ladder</a></li>
-        <li><a class="button nav-last" href="//pokemonshowdown.com/forums/">Forum</a></li>
-    </ul>
-    <ul class="nav nav-play">
-        <li><a class="button greenbutton nav-first nav-last" href="//play.pokemonshowdown.com/">Play</a></li>
-    </ul>
-    <div style="clear:both"></div>
-</div></div></nav>
 <div class="wrapper">
 
-    <span class="title-text main-title-text">Pok&eacute;mon Damage Calculator</span>
-    <div aria-label="Settings" role="region">
+    <span class="title-text main-title-text title-align">Pok&eacute;mon Emerald Rogue Damage Calculator</span>
+	 <input class="notation visually-hidden" type="radio" name="notation" id="pixels" value="px" /><label class="btn btn-small btn-left title-align" for="pixels" title="Pixels out of 48">48th</label>
+	 <input class="notation visually-hidden" type="radio" name="notation" id="percentage" value="%" /><label class="btn btn-small btn-right title-align" for="percentage" title="Percentage">100%</label>
+	<div aria-label="Settings" role="region">
         <span class="genSelection" aria-labelledby="selectGenInstruction" role="radiogroup" title="Select the generation.">
             <span class="visually-hidden" id="selectGenInstruction">Select the generation.</span>
-            <input class="gen visually-hidden" type="radio" name="gen" value="1" id="gen1" /><label class="btn btn-small btn-left" for="gen1">RBY</label>
-            <input class="gen visually-hidden" type="radio" name="gen" value="2" id="gen2" /><label class="btn btn-small btn-mid" for="gen2">GSC</label>
-            <input class="gen visually-hidden" type="radio" name="gen" value="3" id="gen3" /><label class="btn btn-small btn-mid" for="gen3">ADV</label>
-            <input class="gen visually-hidden" type="radio" name="gen" value="4" id="gen4" /><label class="btn btn-small btn-mid" for="gen4">DPP</label>
-            <input class="gen visually-hidden" type="radio" name="gen" value="5" id="gen5" /><label class="btn btn-small btn-mid" for="gen5">B/W</label>
-            <input class="gen visually-hidden" type="radio" name="gen" value="6" id="gen6" /><label class="btn btn-small btn-mid" for="gen6">X/Y</label>
-            <input class="gen visually-hidden" type="radio" name="gen" value="7" id="gen7" /><label class="btn btn-small btn-mid" for="gen7">S/M</label>
-            <input class="gen visually-hidden" type="radio" name="gen" value="8" id="gen8" /><label class="btn btn-small btn-mid" for="gen8">S/S</label>
-            <input class="gen visually-hidden" type="radio" name="gen" value="9" id="gen9" checked="checked" /><label class="btn btn-small btn-right" for="gen9">S/V</label>
+            <input class="gen visually-hidden" type="radio" name="gen" value="9" id="gen9" checked="checked" />
         </span>
         <span class="notationSelection" aria-labelledby="selectNotationInstruction" role="radiogroup" title="Select the output notation.">
             <span class="visually-hidden" id="selectNotationInstruction">Select the output notation.</span>
-            <input class="notation visually-hidden" type="radio" name="notation" id="pixels" value="px" /><label class="btn btn-small btn-left" for="pixels">48th</label>
-            <input class="notation visually-hidden" type="radio" name="notation" id="percentage" value="%" /><label class="btn btn-small btn-right" for="percentage">100%</label>
         </span>
         <span class="modeSelection" aria-labelledby="selectModeInstruction" role="radiogroup" title="Select the calculator's mode of function.">
             <span class="visually-hidden" id="selectModeInstruction">Select the calculator's mode of function.</span>
-            <input class="mode visually-hidden" type="radio" name="mode" id="one-vs-one" checked="checked" /><label class="btn btn-left btn-wide" for="one-vs-one">One vs One</label>
-            <input class="mode visually-hidden" type="radio" name="mode" id="one-vs-all" /><label class="btn btn-mid btn-wide gen-specific g3 g4 g5 g6 g7 g8 g9" for="one-vs-all">One vs All</label>
-            <input class="mode visually-hidden" type="radio" name="mode" id="all-vs-one" /><label class="btn btn-mid btn-wide gen-specific g3 g4 g5 g6 g7 g8 g9" for="all-vs-one">All vs One</label>
-            <input class="mode visually-hidden" type="radio" name="mode" id="randoms" /><label class="btn btn-mid btn-wide" for="randoms">Random Battles</label>
-            <input class="mode visually-hidden" type="radio" name="mode" id="oms" /><label class="btn btn-right btn-xwide" for="oms">Other Metagames</label>
+            <input class="mode visually-hidden" type="radio" name="mode" id="one-vs-one" checked="checked" />
+            <input class="mode visually-hidden" type="radio" name="mode" id="one-vs-all" />
+            <input class="mode visually-hidden" type="radio" name="mode" id="all-vs-one" />
+            <input class="mode visually-hidden" type="radio" name="mode" id="randoms" />
+            <input class="mode visually-hidden" type="radio" name="mode" id="oms" />
         </span>
     </div>
     <hr />
@@ -700,11 +679,11 @@
                 <div aria-labelledby="selectDefaultLevelInstruction" role="radiogroup" style="margin: auto auto 5px;" title="Select the default level.">
                    <span class="visually-hidden" id="selectDefaultLevelInstruction">Select the default level.</span>
                    <input class="visually-hidden calc-trigger" type="radio" name="defaultLevel" value="100" id="default-level-100" />
-                   <label class="btn btn-wide btn-left" for="default-level-100">Level 100</label>
+                   <!--<label class="btn btn-wide btn-left" for="default-level-100">Level 100</label>-->
                    <input class="visually-hidden calc-trigger gen-specific g4 g5 g6 g7 g8 g9" type="radio" name="defaultLevel" value="50" id="default-level-50" />
-                   <label class="btn btn-wide btn-mid gen-specific g4 g5 g6 g7 g8 g9" for="default-level-50">Level 50</label>
+                   <!--<label class="btn btn-wide btn-mid gen-specific g4 g5 g6 g7 g8 g9" for="default-level-50">Level 50</label>-->
                    <input class="visually-hidden calc-trigger" type="radio" name="defaultLevel" value="5" id="default-level-5" />
-                   <label class="btn btn-wide btn-right" for="default-level-5">Level 5</label>
+                   <!--<label class="btn btn-wide btn-right" for="default-level-5">Level 5</label>-->
                </div>
                 <div aria-labelledby="selectTerrainInstruction" class="gen-specific g6 g7 g8 g9" role="group" title="Select the current terrain.">
                     <span class="visually-hidden" id="selectTerrainInstruction">Select the current terrain.</span>
@@ -1598,15 +1577,7 @@
     <script type="text/javascript" src="./calc/util.js?"></script>
     <script type="text/javascript" src="./calc/stats.js?"></script>
     <script type="text/javascript" src="./calc/data/species.js?"></script>
-    <script type="text/javascript" src="./js/data/sets/gen9.js?"></script>
-    <script type="text/javascript" src="./js/data/sets/gen8.js?"></script>
-    <script type="text/javascript" src="./js/data/sets/gen7.js?"></script>
-    <script type="text/javascript" src="./js/data/sets/gen6.js?"></script>
-    <script type="text/javascript" src="./js/data/sets/gen5.js?"></script>
-    <script type="text/javascript" src="./js/data/sets/gen4.js?"></script>
-    <script type="text/javascript" src="./js/data/sets/gen3.js?"></script>
-    <script type="text/javascript" src="./js/data/sets/gen2.js?"></script>
-    <script type="text/javascript" src="./js/data/sets/gen1.js?"></script>
+	 <script type="text/javascript" src="./js/data/sets/rogue.js?a8e21a49"></script>
     <script type="text/javascript" src="./calc/data/types.js?"></script>
     <script type="text/javascript" src="./calc/data/natures.js?"></script>
     <script type="text/javascript" src="./calc/data/abilities.js?"></script>
