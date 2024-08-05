@@ -41,9 +41,9 @@
 <div class="wrapper">
 
     <span class="title-text main-title-text title-align">Pok&eacute;mon Emerald Rogue Damage Calculator</span>
-	 <input class="notation visually-hidden" type="radio" name="notation" id="pixels" value="px" /><label class="btn btn-small btn-left title-align" for="pixels" title="Pixels out of 48">48th</label>
-	 <input class="notation visually-hidden" type="radio" name="notation" id="percentage" value="%" /><label class="btn btn-small btn-right title-align" for="percentage" title="Percentage">100%</label>
-	<div aria-label="Settings" role="region">
+    <input class="notation visually-hidden" type="radio" name="notation" id="pixels" value="px" /><label class="btn btn-small btn-left title-align" for="pixels" title="Pixels out of 48">48th</label>
+    <input class="notation visually-hidden" type="radio" name="notation" id="percentage" value="%" /><label class="btn btn-small btn-right title-align" for="percentage" title="Percentage">100%</label>
+    <div aria-label="Settings" role="region">
         <span class="genSelection" aria-labelledby="selectGenInstruction" role="radiogroup" title="Select the generation.">
             <span class="visually-hidden" id="selectGenInstruction">Select the generation.</span>
             <input class="gen visually-hidden" type="radio" name="gen" value="9" id="gen9" checked="checked" />
@@ -120,9 +120,12 @@
         </div>
     </div>
 
-    <div aria-label="Pok&eacute;mon 1" class="panel" role="region">
+   <div class="panel">
+    <div aria-label="Pok&eacute;mon 1" role="region">
         <fieldset class="poke-info" id="p1">
-            <legend align="center">Pok&eacute;mon 1</legend>
+            <legend align="center">Pok&eacute;mon 1
+                <img id="poke-icon" src="" alt="">
+            </legend>
             <input type="text" class="set-selector calc-trigger" />
             <span id="importedSetsOptions" style="width:auto; display:none">
                 <input type="checkbox" id="importedSets" /> Only show imported sets <br />
@@ -664,6 +667,34 @@
             </div>
         </fieldset>
     </div>
+    <div aria-label="trainer-poks" role="region">
+      <fieldset class="poke-info" id="trainer-mons">
+         <legend align="center">Team/Daycare</legend>
+         <div>
+            <legend class="dropzone" align="center">Team</legend>
+            <div id="team-poke-list" class="box-poke dropzone">
+            </div>
+         </div>
+         <hr>
+         <div>
+            <legend class="dropzone" align="center">Daycare</legend>
+            <div id="box-poke-list" class="box-poke dropzone">
+            </div>
+         </div>
+         <hr>
+         <div>
+            <legend class="dropzone" align="center">Trash</legend>
+            <div id="trash-box" class="box-poke dropzone" data-placeholder="">
+
+            </div>
+            <button class="deadzone" id="trash-pok">Remove Pokémon from the trash</button>
+            <button class="deadzone" id="clearSets">Remove Pokémon from all boxes</button>
+         </div>
+      </fieldset>
+   </div>
+</div>
+
+</div>
 
     <div class="panel">
         <div aria-label="Field information" role="region">
@@ -1025,7 +1056,9 @@
     </div>
     <div aria-label="Pok&eacute;mon 2" role="region" class="panel">
         <fieldset class="poke-info" id="p2">
-            <legend align="center">Pok&eacute;mon 2</legend>
+            <legend align="center">Pok&eacute;mon 2
+                <img id="poke-icon" src="" alt="">
+            </legend>
             <input type="text" class="set-selector calc-trigger" />
             <span id="importedSetsOptions" style="width:auto; display:none">
                 <input type="checkbox" id="importedSets" /> Only show imported sets <br />
@@ -1577,7 +1610,7 @@
     <script type="text/javascript" src="./calc/util.js?"></script>
     <script type="text/javascript" src="./calc/stats.js?"></script>
     <script type="text/javascript" src="./calc/data/species.js?"></script>
-	 <script type="text/javascript" src="./js/data/sets/rogue.js?a8e21a49"></script>
+    <script type="text/javascript" src="./js/data/sets/rogue.js?a8e21a49"></script>
     <script type="text/javascript" src="./calc/data/types.js?"></script>
     <script type="text/javascript" src="./calc/data/natures.js?"></script>
     <script type="text/javascript" src="./calc/data/abilities.js?"></script>

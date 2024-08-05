@@ -136,9 +136,37 @@ html, body {
     padding: 0;
     min-width: 100em;
 }
+
+.trainer-poks-label {
+	margin:  10px 0px;
+}
+
+.trainer-pok-list {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.trainer-pok-list {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.trainer-pok{
+	height:  100%;
+	width:  auto;
+	margin-right:  10px;
+	cursor: pointer;
+	box-sizing: border-box;
+}
+
+.trainer-pok:hover,  .opposite-pok:hover{
+	outline: 2px solid;
+	outline-color: #1abc9c;
+}
+
 .wrapper {
     padding: 0 1em;
-    max-width: 1300px;
+    max-width: 1285px;
     margin: 0 auto;
 }
 .credits {
@@ -214,7 +242,7 @@ th {
     display: inline-block; /* required for honkaculate to work */
 }
 .poke-info {
-    width: 32em;
+    width: 30em;
 }
 .field-info, .poke-import {
     text-align: center;
@@ -519,6 +547,26 @@ table.field {
 .extraSetItems,
 .extraSetMoves {
     width: 100%;
+}
+
+.box-poke, #trainer-pok-list-opposing2, #trainer-pok-list-opposing{
+    min-height: 30px;
+}
+.dropzone::before{
+    content:attr(data-placeholder);
+    color:gray
+}
+
+.deadzone:hover{
+    background: #722323;
+}
+.over{
+    background: #373232;
+}
+
+#poke-icon {
+    min-height: 30px;
+    min-width: 30px;
 }
 
 .flex-parent {

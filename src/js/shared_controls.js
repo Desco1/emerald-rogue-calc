@@ -602,6 +602,7 @@ $(".set-selector").change(function () {
 		if (stickyMoves.getSelectedSide() === pokeObj.prop("id")) {
 			stickyMoves.clearStickyMove();
 		}
+		pokeObj.find("#poke-icon").attr("src", "https://raw.githubusercontent.com/May8th1995/sprites/master/" + pokemonName + ".png");
 		pokeObj.find(".teraToggle").prop("checked", isAutoTera);
 		pokeObj.find(".max").prop("checked", false);
 		stellarButtonsVisibility(pokeObj, 0);
