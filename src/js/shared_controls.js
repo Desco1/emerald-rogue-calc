@@ -747,7 +747,7 @@ $(".set-selector").change(function () {
 			if (regSets) {
 				pokeObj.find(".teraType").val(set.teraType || getForcedTeraType(pokemonName) || pokemon.types[0]);
 			}
-			pokeObj.find(".level").val(set.level === undefined ? 100 : set.level);
+			pokeObj.find(".level").val($("#currentLevelCap").val());
 			pokeObj.find(".hp .evs").val((set.evs && set.evs.hp !== undefined) ? set.evs.hp : 0);
 			pokeObj.find(".hp .ivs").val((set.ivs && set.ivs.hp !== undefined) ? set.ivs.hp : 31);
 			pokeObj.find(".hp .dvs").val((set.dvs && set.dvs.hp !== undefined) ? set.dvs.hp : 15);
@@ -796,7 +796,7 @@ $(".set-selector").change(function () {
 			}
 		} else {
 			pokeObj.find(".teraType").val(getForcedTeraType(pokemonName) || pokemon.types[0]);
-			pokeObj.find(".level").val(defaultLevel);
+			pokeObj.find(".level").val($("#currentLevelCap").val());
 			pokeObj.find(".hp .evs").val(0);
 			pokeObj.find(".hp .ivs").val(31);
 			pokeObj.find(".hp .dvs").val(15);
@@ -1164,7 +1164,7 @@ function createPokemon(pokeInfo) {
 		if (isDynamaxed) curHP = Math.floor(curHP / 2);
 		var types = [pokeInfo.find(".type1").val(), pokeInfo.find(".type2").val()];
 		return new calc.Pokemon(gen, name, {
-			level: ~~pokeInfo.find(".level").val(),
+			level: ~~$("#currentLevelCap").val(),
 			ability: ability,
 			abilityOn: pokeInfo.find(".abilityToggle").is(":checked"),
 			item: item,
@@ -1313,7 +1313,7 @@ function calcHP(poke) {
 function calcStat(poke, StatID) {
 	var stat = poke.find("." + StatID);
 	var base = ~~stat.find(".base").val();
-	var level = ~~poke.find(".level").val();
+	var level = ~~$("#currentLevelCap").val()
 	var nature, ivs, evs;
 	if (gen < 3) {
 		ivs = ~~stat.find(".dvs").val() * 2;
@@ -1912,7 +1912,6 @@ function syncComplete(event) {
 	var target = data.target
 	if (SETDEX_ROGUE[target]) {
 		var targetSet = target + " (" + Object.keys(SETDEX_ROGUE[target])[0] + ")"
-		console.log("Set: " + targetSet)
 		$("#p2 .set-selector").val(targetSet);
 		$("#p2 .set-selector").change();
 		$(".target-mon .select2-chosen").text(targetSet);
