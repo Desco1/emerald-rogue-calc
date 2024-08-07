@@ -22183,5 +22183,5 @@ var SETDEX_ROGUE = {
   "Mareep": {
     "Set 1": {"ability":"Static","item":"Eviolite","nature":"Bold","moves":["Light Screen","Reflect","Thunder Wave","Thunderbolt"]},
     "Set 2": {"ability":"Static","item":"Eviolite","nature":"Bold","moves":["Reflect","Light Screen","Heal Bell","Thunderbolt"]}
-  },
-}
+  }
+};
