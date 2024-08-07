@@ -137,21 +137,7 @@ html, body {
     min-width: 100em;
 }
 
-.trainer-poks-label {
-	margin:  10px 0px;
-}
-
-.trainer-pok-list {
-	display: flex;
-	flex-wrap: wrap;
-}
-
-.trainer-pok-list {
-	display: flex;
-	flex-wrap: wrap;
-}
-
-.trainer-pok{
+.player-mon {
 	height:  100%;
 	width:  auto;
 	margin-right:  10px;
@@ -159,7 +145,7 @@ html, body {
 	box-sizing: border-box;
 }
 
-.trainer-pok:hover,  .opposite-pok:hover{
+.player-mon:hover {
 	outline: 2px solid;
 	outline-color: #1abc9c;
 }
@@ -244,9 +230,14 @@ th {
 .poke-info {
     width: 30em;
 }
-.field-info, .poke-import {
+.field-info {
     text-align: center;
     width: 27.5em;
+}
+
+.import-sync {
+    width: 27.5em;
+    text-align: left;
 }
 
 #holder-2 tr {
@@ -493,6 +484,11 @@ table.field {
   clear: right;
 }
 
+.setting {
+    margin-bottom: 10px;
+    margin-left: 2px;
+}
+
 .import-team-text {
     min-width: 27em;
     min-height: 10em;
@@ -549,15 +545,15 @@ table.field {
     width: 100%;
 }
 
-.box-poke, #trainer-pok-list-opposing2, #trainer-pok-list-opposing{
+.player-mon-zone {
     min-height: 30px;
 }
-.dropzone::before{
+.dropzone::before {
     content:attr(data-placeholder);
     color:gray
 }
 
-.deadzone:hover{
+.deadzone:hover {
     background: #722323;
 }
 .over{

@@ -588,6 +588,81 @@ function smogonAnalysis(pokemonName) {
 	return "https://smogon.com/dex/" + generation + "/pokemon/" + pokemonName.toLowerCase() + "/";
 }
 
+$(document).on("click", ".player-mon-zone .player-mon", function () {
+	var set = $(this).attr("data-id");
+	$("#p1 .set-selector").val(set);
+	$("#p1 .set-selector").change();
+	$(".player-mon .select2-chosen").text(set);
+})
+
+function addBoxed(poke, box) {
+	if (document.getElementById(poke.name + poke.nameProp)) {
+		//nothing to do it already exist
+		return
+	}
+	var newPoke = document.createElement("img");
+	//newPoke.id = poke.name + poke.nameProp;
+	newPoke.className = "player-mon";
+	newPoke.src = "https://raw.githubusercontent.com/May8th1995/sprites/master/" + poke.name + ".png";
+	newPoke.dataset.id = poke.name + " (" + poke.nameProp + ")";
+	newPoke.addEventListener("dragstart", dragstart_handler);
+
+	var team = $("#team-zone")
+	if (team.find(".player-mon").length < 6) {
+		team[0].appendChild(newPoke)
+	} else {
+		$('#daycare-zone')[0].appendChild(newPoke)
+	}
+}
+
+function allowDrop(ev) {
+	ev.preventDefault();
+}
+
+var pokeDragged = null;
+function dragstart_handler(ev) {
+	pokeDragged = ev.target;
+}
+
+function drop(ev) {
+	ev.preventDefault();
+	if (ev.target.classList.contains("dropzone")) {
+		pokeDragged.parentNode.removeChild(pokeDragged);
+		if(ev.target.tagName=="LEGEND"){
+			ev.target.parentNode.children[1].appendChild(pokeDragged);
+		}else{
+			ev.target.appendChild(pokeDragged);
+		}
+
+	}
+	// if it's a pokemon
+	else if(ev.target.classList.contains("left-side") || ev.target.classList.contains("right-side")) {
+		if (!cntrlIsPressed){
+			let prev1 = pokeDragged.previousElementSibling
+			if (!prev1){
+				ev.target.after(pokeDragged)
+			} else {
+				ev.target.before(pokeDragged)
+				prev1.after(ev.target)
+			}
+			//swaps
+		} else {
+			//appends before
+			ev.target.before(pokeDragged)
+		}
+	}
+	ev.target.classList.remove('over');
+}
+
+function handleDragEnter(ev) {
+	ev.target.classList.add('over');
+	ev.target.removeAttribute("data-placeholder");
+}
+
+function handleDragLeave(ev) {
+	ev.target.classList.remove('over');
+}
+
 // auto-update set details on select
 $(".set-selector").change(function () {
 	var fullSetName = $(this).val();
@@ -929,6 +1004,7 @@ $(".forme").change(function () {
 	var greninjaSet = $(this).val().indexOf("Greninja") !== -1;
 	var isAltForme = $(this).val() !== pokemonName;
 	if (isAltForme && abilities.indexOf(altForme.abilities[0]) !== -1 && !greninjaSet) {
+		$(this).parent().parent().siblings().find("#poke-icon").attr("src", "https://raw.githubusercontent.com/May8th1995/sprites/master/" + $(this).val() + ".png");
 		container.find(".ability").val(altForme.abilities[0]);
 	} else if (greninjaSet) {
 		$(this).parent().find(".ability");
@@ -1738,17 +1814,115 @@ $(document).ready(function () {
 			return text.toUpperCase().indexOf(term.toUpperCase()) === 0 || text.toUpperCase().indexOf(" " + term.toUpperCase()) >= 0;
 		}
 	});
+
 	$(".set-selector").val(getFirstValidSetOption().id);
 	$(".set-selector").change();
+	var set = $(".player-mon-zone .player-mon").attr("data-id");
+	$("#p1 .set-selector").val(set);
+	$("#p1 .set-selector").change();
+	$(".player-mon .select2-chosen").text(set);
 	$(".terrain-trigger").bind("change keyup", getTerrainEffects);
+
+	$('#trash-pok').click(trashPokemon);
+	$('#clearSets').click(trashAll);
+	for (let dropzone of document.getElementsByClassName("dropzone")){
+		dropzone.ondragenter=handleDragEnter;
+		dropzone.ondragleave=handleDragLeave;
+		dropzone.ondrop=drop;
+		dropzone.ondragover=allowDrop;
+	}
 });
 
-/* Click-to-copy function */
-$("#mainResult").click(function () {
-	navigator.clipboard.writeText($("#mainResult").text()).then(function () {
-		document.getElementById('tooltipText').style.visibility = 'visible';
-		setTimeout(function () {
-			document.getElementById('tooltipText').style.visibility = 'hidden';
-		}, 1500);
-	});
-});
+function trashPokemon() {
+	var maybeMultiple = document.getElementById("trash-zone").getElementsByClassName("player-mon");
+	if (maybeMultiple.length == 0){
+		return; //nothing to delete
+	}
+	var numberPKM = maybeMultiple.length > 1 ? `${maybeMultiple.length} Pokémon` : "this Pokémon";
+	var yes = confirm(`Do you really want to remove ${numberPKM}?`);
+	if (!yes) {
+		return;
+	}
+	var customSets = JSON.parse(localStorage.customsets);
+	var length= maybeMultiple.length;
+	for (let i = 0; i < length; i++){
+		var pokeTrashed = maybeMultiple[i];
+		var name = pokeTrashed.getAttribute("data-id").split(" (")[0];
+		delete customSets[name];
+	}
+	document.getElementById("trash-zone").innerHTML="";
+	localStorage.setItem("customsets", JSON.stringify(customSets));
+	$('#team-zone')[0].click();
+	//switch to the next pokemon automatically
+}
+
+function allPokemon(selector) {
+	var allSelector = "";
+	for (var i = 0; i < $(".player-mon").length; i++) {
+		if (i > 0) {
+			allSelector += ", ";
+		}
+		allSelector += "#p" + (i + 1) + " " + selector;
+	}
+	return allSelector;
+}
+
+function trashAll() {
+	localStorage.removeItem("customsets");
+	$(allPokemon("#importedSetsOptions")).hide();
+	loadDefaultLists();
+	for (let zone of document.getElementsByClassName("dropzone")){
+		zone.innerHTML="";
+	}
+}
+
+function sync() {
+	var req = new XMLHttpRequest();
+	req.addEventListener("load", syncComplete);
+	req.addEventListener("error", syncFailed);
+	req.addEventListener("abort", syncFailed);
+	req.open("GET", "http://localhost:31123/update");
+	req.send();
+}
+
+$("#currentLevelCap").on("change", function () {
+	var level = $(this).val()
+	$(".level").val(level)
+	$(".level").change()
+})
+
+function syncComplete(event) {
+	var data = JSON.parse(event.target.responseText);
+	trashAll()
+	var customsets = {};
+	for (const mon in data.party) {
+		for (const set in data.party[mon]) {
+			if (!customsets[mon]) {
+				customsets[mon] = {}
+			}
+			customsets[mon][set] = data.party[mon][set]
+		}
+	}
+	updateDex(customsets);
+	var set = $(".player-mon-zone .player-mon").attr("data-id");
+	$("#p1 .set-selector").val(set);
+	$("#p1 .set-selector").change();
+	$(".player-mon .select2-chosen").text(set);
+
+	var target = data.target
+	if (SETDEX_ROGUE[target]) {
+		var targetSet = target + " (" + Object.keys(SETDEX_ROGUE[target])[0] + ")"
+		console.log("Set: " + targetSet)
+		$("#p2 .set-selector").val(targetSet);
+		$("#p2 .set-selector").change();
+		$(".target-mon .select2-chosen").text(targetSet);
+	}
+
+	var level = data.level
+	$("#currentLevelCap").val("" + level)
+	$("#currentLevelCap").change()
+}
+
+function syncFailed(event) {
+	console.log("Failure: " + event);
+}
