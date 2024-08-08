@@ -747,7 +747,7 @@ $(".set-selector").change(function () {
 			if (regSets) {
 				pokeObj.find(".teraType").val(set.teraType || getForcedTeraType(pokemonName) || pokemon.types[0]);
 			}
-			pokeObj.find(".level").val($("#currentLevelCap").val());
+			//pokeObj.find(".level").val(set.level === undefined ? 100 : set.level);
 			pokeObj.find(".hp .evs").val((set.evs && set.evs.hp !== undefined) ? set.evs.hp : 0);
 			pokeObj.find(".hp .ivs").val((set.ivs && set.ivs.hp !== undefined) ? set.ivs.hp : 31);
 			pokeObj.find(".hp .dvs").val((set.dvs && set.dvs.hp !== undefined) ? set.dvs.hp : 15);
@@ -796,7 +796,7 @@ $(".set-selector").change(function () {
 			}
 		} else {
 			pokeObj.find(".teraType").val(getForcedTeraType(pokemonName) || pokemon.types[0]);
-			pokeObj.find(".level").val($("#currentLevelCap").val());
+			pokeObj.find(".level").val(defaultLevel);
 			pokeObj.find(".hp .evs").val(0);
 			pokeObj.find(".hp .ivs").val(31);
 			pokeObj.find(".hp .dvs").val(15);
@@ -1164,7 +1164,7 @@ function createPokemon(pokeInfo) {
 		if (isDynamaxed) curHP = Math.floor(curHP / 2);
 		var types = [pokeInfo.find(".type1").val(), pokeInfo.find(".type2").val()];
 		return new calc.Pokemon(gen, name, {
-			level: ~~$("#currentLevelCap").val(),
+			level: ~~pokeInfo.find(".level").val(),
 			ability: ability,
 			abilityOn: pokeInfo.find(".abilityToggle").is(":checked"),
 			item: item,
@@ -1313,7 +1313,7 @@ function calcHP(poke) {
 function calcStat(poke, StatID) {
 	var stat = poke.find("." + StatID);
 	var base = ~~stat.find(".base").val();
-	var level = ~~$("#currentLevelCap").val()
+	var level = ~~poke.find(".level").val();
 	var nature, ivs, evs;
 	if (gen < 3) {
 		ivs = ~~stat.find(".dvs").val() * 2;
@@ -1885,12 +1885,6 @@ function sync() {
 	req.send();
 }
 
-$("#currentLevelCap").on("change", function () {
-	var level = $(this).val()
-	$(".level").val(level)
-	$(".level").change()
-})
-
 function syncComplete(event) {
 	var data = JSON.parse(event.target.responseText);
 	trashAll()
@@ -1909,17 +1903,15 @@ function syncComplete(event) {
 	$("#p1 .set-selector").change();
 	$(".player-mon .select2-chosen").text(set);
 
-	var target = data.target
+	var target = data.target.species
 	if (SETDEX_ROGUE[target]) {
 		var targetSet = target + " (" + Object.keys(SETDEX_ROGUE[target])[0] + ")"
 		$("#p2 .set-selector").val(targetSet);
 		$("#p2 .set-selector").change();
+		$("#levelR1").val(data.target.level);
+		$("#levelR1").change();
 		$(".target-mon .select2-chosen").text(targetSet);
 	}
-
-	var level = data.level
-	$("#currentLevelCap").val("" + level)
-	$("#currentLevelCap").change()
 }
 
 function syncFailed(event) {
