@@ -568,3 +568,13 @@ table.field {
 .flex-parent {
 	display: flex;
 }
+
+.target-set div {
+    width: 30em;
+    padding-bottom: 10px;
+}
+
+.search-term:hover {
+    cursor: pointer;
+    text-shadow: 1px 0 0 black;
+}

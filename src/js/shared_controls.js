@@ -663,6 +663,14 @@ function handleDragLeave(ev) {
 	ev.target.classList.remove('over');
 }
 
+var filters = {
+	"mon": "",
+	"ability": "",
+	"nature": "",
+	"item": "",
+	"moves": []
+}
+
 // auto-update set details on select
 $(".set-selector").change(function () {
 	var fullSetName = $(this).val();
@@ -670,6 +678,7 @@ $(".set-selector").change(function () {
 	var setName = fullSetName.substring(fullSetName.indexOf("(") + 1, fullSetName.lastIndexOf(")"));
 	var pokemon = pokedex[pokemonName];
 	if (pokemon) {
+		var isTargetMon = $(this)[0].classList.contains("target-mon")
 		var pokeObj = $(this).closest(".poke-info");
 		var isAutoTera =
 		(startsWith(pokemonName, "Ogerpon") && endsWith(pokemonName, "Tera")) ||
@@ -747,7 +756,9 @@ $(".set-selector").change(function () {
 			if (regSets) {
 				pokeObj.find(".teraType").val(set.teraType || getForcedTeraType(pokemonName) || pokemon.types[0]);
 			}
-			//pokeObj.find(".level").val(set.level === undefined ? 100 : set.level);
+			if (!isTargetMon) {
+				pokeObj.find(".level").val(set.level === undefined ? 100 : set.level);
+			}
 			pokeObj.find(".hp .evs").val((set.evs && set.evs.hp !== undefined) ? set.evs.hp : 0);
 			pokeObj.find(".hp .ivs").val((set.ivs && set.ivs.hp !== undefined) ? set.ivs.hp : 31);
 			pokeObj.find(".hp .dvs").val((set.dvs && set.dvs.hp !== undefined) ? set.dvs.hp : 15);
@@ -851,8 +862,87 @@ $(".set-selector").change(function () {
 			pokeObj.find(".gender").parent().hide();
 			pokeObj.find(".gender").val("");
 		} else pokeObj.find(".gender").parent().show();
+
+		if (isTargetMon) {
+			if (pokemonName != filters.mon) {
+				filters = {
+					"mon": pokemonName,
+					"ability": "",
+					"nature": "",
+					"item": "",
+					"moves": []
+				}
+			}
+			updateTargetSet(pokemonName)
+		}
 	}
 });
+
+function mapped(term, array) {
+	return array.map((it) => "<span class=\"search-term search-term-" + term + "\">" + it + "</span>")
+}
+
+function filtered(sets) {
+	return Object.values(sets).filter((set) => {
+		if (filters.ability !== "") {
+			if (filters.ability !== set.ability) {
+				return false
+			}
+		}
+		if (filters.nature !== "") {
+			if (filters.nature !== set.nature) {
+				return false
+			}
+		}
+		if (filters.item !== "") {
+			if (filters.item !== set.item) {
+				return false
+			}
+		}
+		if (filters.moves.length !== 0) {
+			if (!filters.moves.every((move) => set.moves.includes(move))) {
+				return false
+			}
+		}
+		return true
+	});
+}
+
+function updateTargetSet(name) {
+	if (!SETDEX_ROGUE[name]) {
+		return
+	}
+	let sets = filtered(SETDEX_ROGUE[name]);
+	let abilities = [...new Set(sets.map((it) => it.ability))]
+	document.getElementById("set-abilities").innerHTML = "Abilities: " + mapped("ability", abilities).join(", ")
+	let natures = [...new Set(sets.map((it) => it.nature))]
+	document.getElementById("set-natures").innerHTML = "Natures: " + mapped("nature", natures).join(", ")
+	let items = [...new Set(sets.map((it) => it.item))]
+	document.getElementById("set-items").innerHTML = "Items: " + mapped("item", items).join(", ")
+	let moves = [...new Set(sets.map((it) => it.moves).flat())]
+	document.getElementById("set-moves").innerHTML = "Moves: " + mapped("move", moves).join(", ")
+
+	$(".search-term").on("click", function () {
+		let classList = $(this)[0].classList
+		if (classList.contains("search-term-ability")) {
+			filters.ability = $(this).text()
+		} else if (classList.contains("search-term-nature")) {
+			filters.nature = $(this).text()
+		} else if (classList.contains("search-term-item")) {
+			filters.item = $(this).text()
+		} else if (classList.contains("search-term-move")) {
+			filters.moves.push($(this).text())
+		}
+		let newSets = filtered(SETDEX_ROGUE[name])
+		if (newSets.length !== 0) {
+			let setIndex = Object.values(SETDEX_ROGUE[name]).indexOf(newSets[0])
+			let set = name + " (" + Object.keys(SETDEX_ROGUE[name])[setIndex] + ")"
+			$("#p2 .set-selector").val(set);
+			$("#p2 .set-selector").change();
+			$(".target-mon .select2-chosen").text(set);
+		}
+	})
+}
 
 function formatMovePool(moves) {
 	var formatted = [];
