@@ -1988,7 +1988,7 @@ function syncComplete(event) {
 		}
 	}
 	updateDex(customsets);
-	var set = $(".player-mon-zone .player-mon").attr("data-id");
+	var set = $(".player-mon-zone .player-mon")[data.selected].attributes["data-id"].value;
 	$("#p1 .set-selector").val(set);
 	$("#p1 .set-selector").change();
 	$(".player-mon .select2-chosen").text(set);
