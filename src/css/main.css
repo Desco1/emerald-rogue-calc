@@ -574,7 +574,7 @@ table.field {
     padding-bottom: 10px;
 }
 
-.search-term:hover {
+.search-term:hover, #reset-search:hover {
     cursor: pointer;
     text-shadow: 1px 0 0 black;
 }

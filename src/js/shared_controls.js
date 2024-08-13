@@ -944,6 +944,14 @@ function updateTargetSet(name) {
 	})
 }
 
+$("#reset-search").on("click", function () {
+	filters.ability = ""
+	filters.nature = ""
+	filters.item = ""
+	filters.moves = []
+	updateTargetSet(filters.mon)
+})
+
 function formatMovePool(moves) {
 	var formatted = [];
 	for (var i = 0; i < moves.length; i++) {

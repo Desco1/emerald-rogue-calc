@@ -63,14 +63,6 @@ function ExportPokemon(pokeInfo) {
 	$("textarea.import-team-text").val(finalText);
 }
 
-$("#exportL").click(function () {
-	ExportPokemon($("#p1"));
-});
-
-$("#exportR").click(function () {
-	ExportPokemon($("#p2"));
-});
-
 function serialize(array, separator) {
 	var text = "";
 	for (var i = 0; i < array.length; i++) {
