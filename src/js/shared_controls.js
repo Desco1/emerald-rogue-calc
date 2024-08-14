@@ -595,7 +595,7 @@ $(document).on("click", ".player-mon-zone .player-mon", function () {
 	$(".player-mon .select2-chosen").text(set);
 })
 
-function addBoxed(poke, box) {
+function addBoxed(poke, daycare) {
 	if (document.getElementById(poke.name + poke.nameProp)) {
 		//nothing to do it already exist
 		return
@@ -608,7 +608,7 @@ function addBoxed(poke, box) {
 	newPoke.addEventListener("dragstart", dragstart_handler);
 
 	var team = $("#team-zone")
-	if (team.find(".player-mon").length < 6) {
+	if (team.find(".player-mon").length < 6 && !daycare) {
 		team[0].appendChild(newPoke)
 	} else {
 		$('#daycare-zone')[0].appendChild(newPoke)
@@ -884,6 +884,9 @@ function mapped(term, array) {
 
 function filtered(sets) {
 	return Object.values(sets).filter((set) => {
+		if (set.isCustomSet) {
+			return false
+		}
 		if (filters.ability !== "") {
 			if (filters.ability !== set.ability) {
 				return false

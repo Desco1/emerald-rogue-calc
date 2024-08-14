@@ -228,7 +228,7 @@ function updateDex(customsets) {
 			SETDEX_ROGUE[pokemon][moveset] = customsets[pokemon][moveset];
 
 			var poke = {name: pokemon, nameProp: moveset};
-			addBoxed(poke);
+			addBoxed(poke, customsets[pokemon][moveset].isDaycare ?? false);
 		}
 	}
 	localStorage.customsets = JSON.stringify(customsets);
